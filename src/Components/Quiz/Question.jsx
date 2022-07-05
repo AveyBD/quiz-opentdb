@@ -8,22 +8,23 @@ const Question = ({ item, index }) => {
       return answers;
     }
   };
-  console.log(item);
+  // console.log(item);
   const { question, correct_answer, incorrect_answers } = item;
   const options = [...incorrect_answers, correct_answer];
+  console.log(`Line 14: ${options}`);
   changeCorrectAnsLocation(options);
-  console.log(options);
+  console.log(`Line 16: ${options}`);
   return (
     <div>
       <h2>
         {index + 1}. {question}
         <div class="form-control">
-        {options.map(option=>(
+          {options.map((option) => (
             <label class="label cursor-pointer">
-            <span class="label-text">{option}</span> 
-            <input type="radio" name="{option}" class="radio" />
-          </label>
-        ))}
+              <span class="label-text">{option}</span>
+              <input type="radio" name="{option}" class="radio" />
+            </label>
+          ))}
         </div>
       </h2>
     </div>
