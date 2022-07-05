@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import Slider from "../Components/Home/Slider";
 import Loading from "../Components/Shared/Loading";
+
 
 const Home = () => {
   const [question, setQuestion] = useState([]);
@@ -17,7 +19,7 @@ const Home = () => {
   console.log(question);
   return (
     <div className="w-full md:w-3/4 mx-auto">
-      <h2>Hello Home</h2>
+      <Slider />
     </div>
   );
 };
