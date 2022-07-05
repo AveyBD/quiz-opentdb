@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Nav from "./Components/Shared/Nav";
 import Home from "./Pages/Home";
 import Profile from "./Pages/Profile";
+import Quiz from "./Pages/Quiz";
 import Result from "./Pages/Result";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/result" element={<Result />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </div>
   );
