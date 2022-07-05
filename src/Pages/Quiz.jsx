@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import Question from "../Components/Quiz/Question";
 import Loading from "../Components/Shared/Loading";
 const Quiz = () => {
   const [question, setQuestion] = useState([]);
@@ -19,9 +20,7 @@ const Quiz = () => {
       <h2 className="text-center">Total Question = {question.length}</h2>
       <ol>
         {question.map((q, index) => (
-          <li key={index}>
-            {index+1}. {q.question}
-          </li>
+          <Question key={index} item={q} index={index} />
         ))}
       </ol>
     </div>
