@@ -30,8 +30,8 @@ const Home = () => {
       <h2 className="text-3xl text-center font-bold mt-3 uppercase">
         Login to play
       </h2>
-      <div className="flex gap-1 border border-gray-200 rounded justify-center items-center">
-        <div className="w-3/4">
+      <div className="block md:flex gap-1 border border-gray-200 rounded justify-center items-center">
+        <div className="w-full md:w-3/4">
           <div class="w-full bg-base-100 shadow">
             <div class="card-body">
               <p>
