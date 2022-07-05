@@ -16,6 +16,14 @@ const Home = () => {
     return <Loading />;
   }
   console.log(question);
+  const setRandomUser = () => {
+    let char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let userName = "";
+    for (var i = 0; i < 5; i++) {
+      userName += char.charAt(Math.floor(Math.random() * char.length));
+    }
+    localStorage.setItem("user", userName);
+  };
   return (
     <div className="w-full md:w-3/4 mx-auto">
       <Slider />
@@ -36,7 +44,7 @@ const Home = () => {
                 store at monogdb atlas
               </p>
               <div class="card-actions justify-end">
-                <button class="btn btn-outline">
+                <button onClick={() => setRandomUser()} class="btn btn-outline">
                   Continue With A Random Username
                 </button>
               </div>
