@@ -1,19 +1,40 @@
 import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
 import Slider from "../Components/Home/Slider";
+import auth from "../firebase.init";
+import toast from "react-hot-toast";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+
   const setRandomUser = () => {
     let char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let userName = "";
     for (var i = 0; i < 5; i++) {
       userName += char.charAt(Math.floor(Math.random() * char.length));
     }
-    localStorage.setItem("user", userName);
-    navigate("/quiz", { replace: true });
+    if (localStorage.getItem("user") === null) {
+      localStorage.setItem("user", userName);
+      navigate("/quiz", { replace: true });
+    } else {
+      toast.success(
+        `You already have the username ${localStorage.getItem(
+          "user"
+        )}. Continuing with that.`
+      );
+      navigate("/quiz", { replace: true });
+    }
   };
+  const gLogin = () => {
+    signInWithGoogle();
+  };
+  if (user) {
+    localStorage.setItem("user", user.user.email);
+    navigate("/quiz", { replace: true });
+  }
   return (
     <div className="w-full md:w-3/4 mx-auto">
       <Slider />
@@ -48,7 +69,9 @@ const Home = () => {
           <div className="card min-w-full bg-base-100 shadow">
             <div className="card-body">
               <h2 className="text-center font-bold">Login</h2>
-              <button className="btn btn-outline">Login With Google</button>
+              <button onClick={gLogin} className="btn btn-outline">
+                Continue With Google
+              </button>
               <button className="btn btn-outline">Login With Github</button>
             </div>
           </div>
