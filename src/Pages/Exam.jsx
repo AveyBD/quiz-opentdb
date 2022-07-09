@@ -18,6 +18,7 @@ const Exam = () => {
     }
   };
   const [questions, setQuestions] = useState([]);
+  const [score, setScore] = useState(0);
   const {
     register,
     handleSubmit,
@@ -28,10 +29,13 @@ const Exam = () => {
     "openTDbData",
     () =>
       fetch(
-        "https://opentdb.com/api.php?amount=1&category=10&difficulty=easy&type=multiple"
+        "https://opentdb.com/api.php?amount=1&category=18&difficulty=easy&type=multiple"
       )
         .then((res) => res.json())
-        .then((data) => setQuestions(data.results))
+        .then((data) => setQuestions(data.results)),
+        {
+          refetchOnWindowFocus: false,
+        }
   );
   if (isLoading || isFetching) {
     return <Loading />;
@@ -41,7 +45,13 @@ const Exam = () => {
   }
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data.answer);
+    if (data.answer === correct_answer) {
+      toast.success("Correct Answer!");
+      setScore(score + 1);
+    } else {
+      toast.error(`Wrong Answer! The correct answer is ${correct_answer}`);
+    }
     reset();
     refetch();
   };
@@ -81,8 +91,8 @@ const Exam = () => {
                 </div>
               ))}
               <div className="hidden">
-              {errors.answer?.type === "required" &&
-                toast.error("You have to select an answer or skip!")}
+                {errors.answer?.type === "required" &&
+                  toast.error("You have to select an answer or skip!")}
               </div>
             </div>
             <div class="card-actions justify-between">
