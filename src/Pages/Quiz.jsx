@@ -1,28 +1,27 @@
-import React, { useState } from "react";
-import { useQuery } from "react-query";
-import Question from "../Components/Quiz/Question";
-import Loading from "../Components/Shared/Loading";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 const Quiz = () => {
-  const [question, setQuestion] = useState([]);
-  const { isLoading, error, data } = useQuery("repoData", () =>
-    fetch(
-      "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple"
-    )
-      .then((res) => res.json())
-      .then((data) => setQuestion(data.results))
-  );
-  if (isLoading) {
-    return <Loading />;
-  }
-  console.log(question);
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log("Log On Click");
+    navigate("/exam");
+  };
   return (
-    <div className="md:w-3/4 mx-auto">
-      <h2 className="text-center">Total Question = {question.length}</h2>
-      <ol>
-        {question.map((q, index) => (
-          <Question key={index} item={q} index={index} />
-        ))}
-      </ol>
+    <div className="w-full md:w-3/4 mx-auto px-2 h-screen flex justify-center items-center">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input
+          type="submit"
+          className="btn btn-outline"
+          value={"Start The Quiz"}
+        ></input>
+      </form>
     </div>
   );
 };

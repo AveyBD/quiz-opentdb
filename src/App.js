@@ -1,6 +1,7 @@
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./Components/Shared/Nav";
+import Exam from "./Pages/Exam";
 import Home from "./Pages/Home";
 import Profile from "./Pages/Profile";
 import Quiz from "./Pages/Quiz";
@@ -16,6 +17,7 @@ function App() {
         <Route path="/result" element={<Result />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/quiz" element={<Quiz />} />
+        <Route path="/exam" element={<Exam />} />
       </Routes>
     </div>
   );
