@@ -5,7 +5,6 @@ import { useQuery } from "react-query";
 import Loading from "../Components/Shared/Loading";
 
 const Exam = () => {
-  const [i, setI] = useState(0);
   const changeCorrectAnsLocation = (answers, main) => {
     for (let m = answers.length - 1; m > 0; m--) {
       const n = Math.floor(Math.random() * (m + 1));
@@ -18,6 +17,7 @@ const Exam = () => {
     }
   };
   const [questions, setQuestions] = useState([]);
+  const [qn, setQn] = useState(1);
   const [score, setScore] = useState(0);
   const {
     register,
@@ -33,9 +33,9 @@ const Exam = () => {
       )
         .then((res) => res.json())
         .then((data) => setQuestions(data.results)),
-        {
-          refetchOnWindowFocus: false,
-        }
+    {
+      refetchOnWindowFocus: false,
+    }
   );
   if (isLoading || isFetching) {
     return <Loading />;
@@ -45,19 +45,18 @@ const Exam = () => {
   }
 
   const onSubmit = (data) => {
-    console.log(data.answer);
     if (data.answer === correct_answer) {
       toast.success("Correct Answer!");
       setScore(score + 1);
     } else {
       toast.error(`Wrong Answer! The correct answer is ${correct_answer}`);
     }
+    setQn(qn + 1);
     reset();
     refetch();
   };
   const handleSkip = () => {
-    setI(i + 1);
-    console.log(i);
+    setQn(qn + 1);
     refetch();
   };
   const { question, correct_answer, incorrect_answers } = questions[0];
@@ -66,45 +65,54 @@ const Exam = () => {
   const main = [...incorrect_answers, correct_answer];
   changeCorrectAnsLocation(options, main);
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div class="card w-96 bg-base-100 shadow-xl">
-        <div class="card-body">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <h2 class="card-title">
-              {i + 1}. {question}
-            </h2>
-            <div>
-              {options.map((option, index) => (
-                <div>
-                  <label htmlFor={option}>
-                    <input
-                      {...register("answer", { required: true })}
-                      type="radio"
-                      name="answer"
-                      key={index}
-                      value={option}
-                      id={option}
-                    />
-                    <span className="label-text"> {option}</span>
-                  </label>
-                  <br />
-                </div>
-              ))}
-              <div className="hidden">
-                {errors.answer?.type === "required" &&
-                  toast.error("You have to select an answer or skip!")}
-              </div>
-            </div>
-            <div class="card-actions justify-between">
-              <button onClick={handleSkip} class="btn btn-outline">
-                Skip
-              </button>
-              <input type="submit" class="btn btn-outline"></input>
-            </div>
-          </form>
+    <>
+      <div className="flex justify-between items-center w-3/4 mx-auto mt-1">
+        <h2>UserName: {localStorage.getItem("user")}</h2>
+        <div className="flex justify-end items-center gap-1">
+          <h2>This Session Score: {score}</h2>
+          <button className="btn btn-outline">Save Score</button>
         </div>
       </div>
-    </div>
+      <div className="flex justify-center items-center h-screen">
+        <div class="card w-full md:w-96 bg-base-100 shadow-xl">
+          <div class="card-body">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <h2 class="card-title">
+                {qn}/10. {question}
+              </h2>
+              <div>
+                {options.map((option, index) => (
+                  <div>
+                    <label htmlFor={option}>
+                      <input
+                        {...register("answer", { required: true })}
+                        type="radio"
+                        name="answer"
+                        key={index}
+                        value={option}
+                        id={option}
+                      />
+                      <span className="label-text"> {option}</span>
+                    </label>
+                    <br />
+                  </div>
+                ))}
+                <div className="hidden">
+                  {errors.answer?.type === "required" &&
+                    toast.error("You have to select an answer or skip!")}
+                </div>
+              </div>
+              <div class="card-actions justify-between">
+                <button onClick={handleSkip} class="btn btn-outline">
+                  Skip
+                </button>
+                <input type="submit" class="btn btn-outline"></input>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
