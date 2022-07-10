@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 const Quiz = () => {
+  useEffect(() => {
+    const keyDownHandler = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        navigate("/exam");
+      }
+    };
+    document.addEventListener("keydown", keyDownHandler);
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  }, []);
+
   const navigate = useNavigate();
   const {
     register,
@@ -10,7 +23,6 @@ const Quiz = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log("Log On Click");
     navigate("/exam");
   };
   return (
