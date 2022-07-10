@@ -44,7 +44,7 @@ const Profile = () => {
             </h3>
             <div className="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
               <i className="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75"></i>
-              Dhaka, Bangladesh
+              last Played On: {localStorage.getItem('played')}
             </div>
           </div>
         </div>

@@ -71,10 +71,14 @@ const Exam = () => {
       localStorage.setItem("total", score);
       localStorage.setItem("lastScore", score);
       localStorage.setItem("attempt", 1);
+      localStorage.setItem("played", now);
     } else {
       const oldTotal = parseInt(localStorage.getItem("total"));
-
+      const oldAttempt = parseInt(localStorage.getItem("attempt"));
       localStorage.setItem("total", oldTotal + score);
+      localStorage.setItem("total", oldAttempt + 1);
+      localStorage.setItem("lastScore", score);
+      localStorage.setItem("played", now);
     }
   };
   return (
