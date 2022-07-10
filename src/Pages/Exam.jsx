@@ -60,24 +60,44 @@ const Exam = () => {
     refetch();
   };
   const { question, correct_answer, incorrect_answers } = questions[0];
-  console.log(question);
   const options = [...incorrect_answers, correct_answer];
   const main = [...incorrect_answers, correct_answer];
   changeCorrectAnsLocation(options, main);
+  const saveSessionScore = () => {
+    const today = new Date();
+    const now = today.toLocaleString();
+    if (localStorage.getItem("total") === null) {
+      console.log("No Database");
+      localStorage.setItem("total", score);
+      localStorage.setItem("lastScore", score);
+      localStorage.setItem("attempt", 1);
+    } else {
+      const oldTotal = parseInt(localStorage.getItem("total"));
+
+      localStorage.setItem("total", oldTotal + score);
+    }
+  };
   return (
     <>
-      <div className="flex justify-between items-center w-3/4 mx-auto mt-1">
-        <h2>UserName: {localStorage.getItem("user")}</h2>
-        <div className="flex justify-end items-center gap-1">
+      <div className="flex justify-between items-center w-full md:w-3/4 mx-auto mt-1">
+        <h2 className="hidden md:block">
+          UserName: {localStorage.getItem("user")}
+        </h2>
+        <div className="flex w-full justify-between md:justify-end md:w-auto items-center gap-1">
           <h2>This Session Score: {score}</h2>
-          <button className="btn btn-outline">Save Score</button>
+          <button
+            onClick={() => saveSessionScore()}
+            className="btn btn-outline"
+          >
+            Save Score
+          </button>
         </div>
       </div>
       <div className="flex justify-center items-center h-screen">
-        <div class="card w-full md:w-96 bg-base-100 shadow-xl">
-          <div class="card-body">
+        <div className="card w-full md:w-96 bg-base-100 shadow-xl">
+          <div className="card-body">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <h2 class="card-title">
+              <h2 className="card-title">
                 {qn}/10. {question}
               </h2>
               <div>
@@ -102,11 +122,11 @@ const Exam = () => {
                     toast.error("You have to select an answer or skip!")}
                 </div>
               </div>
-              <div class="card-actions justify-between">
-                <button onClick={handleSkip} class="btn btn-outline">
+              <div className="card-actions justify-between">
+                <button onClick={handleSkip} className="btn btn-outline">
                   Skip
                 </button>
-                <input type="submit" class="btn btn-outline"></input>
+                <input type="submit" className="btn btn-outline"></input>
               </div>
             </form>
           </div>
