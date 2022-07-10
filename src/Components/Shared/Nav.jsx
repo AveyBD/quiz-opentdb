@@ -83,9 +83,6 @@ const Nav = () => {
             <Link to={"/"}>Home</Link>
           </li>
           <li>
-            <Link to={"/result"}>Results</Link>
-          </li>
-          <li>
             <Link to={"/profile"}>Profile</Link>
           </li>
         </ul>

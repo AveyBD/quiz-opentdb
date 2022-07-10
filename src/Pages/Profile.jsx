@@ -40,11 +40,11 @@ const Profile = () => {
           </div>
           <div className="text-center mt-2">
             <h3 className="text-2xl text-slate-700 font-bold leading-normal mb-1">
-              {localStorage.getItem("user") || "No User"}
+              Hey, {localStorage.getItem("user") || "No User"}!
             </h3>
             <div className="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
               <i className="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75"></i>
-              last Played On: {localStorage.getItem('played')}
+              last Played On: {localStorage.getItem("played")}
             </div>
           </div>
         </div>

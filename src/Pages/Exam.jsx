@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Loading from "../Components/Shared/Loading";
 
 const Exam = () => {
@@ -25,6 +27,7 @@ const Exam = () => {
     reset,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
   const { isLoading, refetch, isFetching, error, data } = useQuery(
     "openTDbData",
     () =>
@@ -52,12 +55,23 @@ const Exam = () => {
       toast.error(`Wrong Answer! The correct answer is ${correct_answer}`);
     }
     setQn(qn + 1);
-    reset();
-    refetch();
+    if (qn < 10) {
+      reset();
+      refetch();
+      
+    } else {
+      saveSessionScore();
+      navigate("/result");
+    }
   };
   const handleSkip = () => {
     setQn(qn + 1);
-    refetch();
+    if (qn < 10) {
+      refetch();
+    } else {
+      saveSessionScore();
+      navigate("/result");
+    }
   };
   const { question, correct_answer, incorrect_answers } = questions[0];
   const options = [...incorrect_answers, correct_answer];
@@ -76,10 +90,17 @@ const Exam = () => {
       const oldTotal = parseInt(localStorage.getItem("total"));
       const oldAttempt = parseInt(localStorage.getItem("attempt"));
       localStorage.setItem("total", oldTotal + score);
-      localStorage.setItem("total", oldAttempt + 1);
+      localStorage.setItem("attempt", oldAttempt + 1);
       localStorage.setItem("lastScore", score);
       localStorage.setItem("played", now);
     }
+    Swal.fire({
+      icon: "success",
+      title: "Your last score has been saved",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    setScore(0);
   };
   return (
     <>
@@ -130,7 +151,11 @@ const Exam = () => {
                 <button onClick={handleSkip} className="btn btn-outline">
                   Skip
                 </button>
-                <input type="submit" className="btn btn-outline"></input>
+                <input
+                  type="submit"
+                  value={"Submit"}
+                  className="btn btn-outline"
+                ></input>
               </div>
             </form>
           </div>
